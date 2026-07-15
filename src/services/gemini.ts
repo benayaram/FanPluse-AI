@@ -5,6 +5,19 @@ const isValidKey = (key: string) => {
   return typeof key === 'string' && key.trim().length > 10;
 };
 
+/**
+ * Sanitize user input to prevent XSS and prompt injection.
+ * Strips HTML tags, limits length, and trims whitespace.
+ */
+export function sanitizeInput(input: string, maxLength = 1000): string {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/<[^>]*>/g, '')       // strip HTML tags
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '') // strip control chars
+    .trim()
+    .slice(0, maxLength);
+}
+
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
@@ -45,7 +58,8 @@ export async function callGemini(
       history: formattedHistory,
     });
 
-    const result = await chat.sendMessage(userPrompt);
+    const sanitizedPrompt = sanitizeInput(userPrompt, 2000);
+    const result = await chat.sendMessage(sanitizedPrompt);
     const response = await result.response;
     return response.text().trim();
   } catch (error: any) {
