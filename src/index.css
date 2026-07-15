@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fifa-blue: #002f6c;
+  --color-fifa-gold: #c5a059;
+  --color-fifa-green: #00a859;
+  --color-fifa-red: #da291c;
+  --color-fifa-dark: #f8fafc;
+  --color-fifa-card: rgba(255, 255, 255, 0.7);
+  --color-fifa-border: rgba(0, 0, 0, 0.06);
+  --color-fifa-accent: #1d4ed8;
+  
+  --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+  
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-in: fadeIn 0.3s ease-out forwards;
+  --animate-slide-up: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Glassmorphism custom styling class - Light Mode edition */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 30px rgba(0, 47, 108, 0.04), 0 1px 2px rgba(0, 0, 0, 0.01);
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 47, 108, 0.15);
+  transform: translateY(-2px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 12px 35px rgba(0, 47, 108, 0.08);
+}
+
+.glass-premium {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(243, 246, 255, 0.75) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  box-shadow: 0 15px 35px rgba(0, 47, 108, 0.08), 0 1px 3px rgba(197, 160, 89, 0.05);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 160, 89, 0.6);
+}
+
+/* Simulated Mobile device frame styles */
+.mobile-simulator {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 720px;
+  border-radius: 40px;
+  border: 12px solid #e2e8f0;
+  background: #f8fafc;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Speaker notch */
+.mobile-simulator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 25px;
+  background: #e2e8f0;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  z-index: 50;
+}
+
+/* Home indicator line */
+.mobile-simulator::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.mobile-content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 32px 16px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
