@@ -55,7 +55,9 @@ export const SimulationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [userRole, setUserRoleState] = useState<'fan' | 'organizer' | 'volunteer' | 'staff'>('organizer');
   const [viewMode, setViewMode] = useState<'dashboard' | 'split'>('split');
   const [activePersonaTab, setActivePersonaTab] = useState<'fan' | 'organizer' | 'volunteer' | 'staff'>('fan');
-  const [geminiApiKey, setGeminiApiKeyInternal] = useState<string>(import.meta.env.VITE_GEMINI_API_KEY || 'AQ.Ab8RN6LpDTagd5yfHkn-Dq0wyPUPC94OW260oBww76h_QJbqYQ');
+  const [geminiApiKey, setGeminiApiKeyInternal] = useState<string>(
+    import.meta.env.VITE_GEMINI_API_KEY || ''
+  );
 
   const setGeminiApiKey = (key: string) => {
     localStorage.setItem('fanpulse_gemini_api_key', key);

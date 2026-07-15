@@ -22,13 +22,18 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans select-none">
+      {/* Skip Navigation for Accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 bg-fifa-blue text-white px-4 py-2 rounded-lg font-bold text-sm">
+        Skip to main content
+      </a>
       {/* Header (Hidden on Portal Home for maximum branding impact, shown on View Screens) */}
       {activeView !== 'portal' && (
-        <header className="bg-white border-b border-slate-250 px-6 py-3 flex justify-between items-center shrink-0 z-40">
+        <header className="bg-white border-b border-slate-250 px-6 py-3 flex justify-between items-center shrink-0 z-40" role="banner">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setActiveView('portal')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-950 transition-all"
+              aria-label="Go back to portal hub"
             >
               <ArrowLeft size={13} />
               <span>Back to Portal Hub</span>
@@ -68,7 +73,7 @@ const AppContent: React.FC = () => {
       )}
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col min-h-0">
+      <main id="main-content" className="flex-1 flex flex-col min-h-0" role="main">
         {activeView === 'portal' ? (
           /* Stunning Landing Portal Home Screen */
           <div className="flex-1 flex flex-col justify-center items-center px-6 py-12 max-w-6xl mx-auto w-full overflow-y-auto">
@@ -90,7 +95,11 @@ const AppContent: React.FC = () => {
               {/* Card 1: Fan Experience */}
               <div 
                 onClick={() => setActiveView('fan')}
-                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-emerald-500/40 hover:shadow-[0_12px_25px_rgba(16,185,129,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('fan'); } }}
+                role="button"
+                tabIndex={0}
+                aria-label="Open Fan Portal — AI wayfinding assistant, transit planner, and multilingual help"
+                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-emerald-500/40 hover:shadow-[0_12px_25px_rgba(16,185,129,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-transform mb-5">
@@ -110,7 +119,11 @@ const AppContent: React.FC = () => {
               {/* Card 2: Volunteer Co-Pilot */}
               <div 
                 onClick={() => setActiveView('volunteer')}
-                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-amber-500/40 hover:shadow-[0_12px_25px_rgba(245,158,11,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('volunteer'); } }}
+                role="button"
+                tabIndex={0}
+                aria-label="Open Volunteer Hub — Task list, AI shift guide, and translation utilities"
+                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-amber-500/40 hover:shadow-[0_12px_25px_rgba(245,158,11,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 group-hover:scale-105 transition-transform mb-5">
@@ -130,7 +143,11 @@ const AppContent: React.FC = () => {
               {/* Card 3: Staff & Security Console */}
               <div 
                 onClick={() => setActiveView('staff')}
-                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-rose-500/40 hover:shadow-[0_12px_25px_rgba(239,68,68,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('staff'); } }}
+                role="button"
+                tabIndex={0}
+                aria-label="Open Staff Console — Voice incident logs, AI categorization, and ADA dispatch"
+                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-rose-500/40 hover:shadow-[0_12px_25px_rgba(239,68,68,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600 group-hover:scale-105 transition-transform mb-5">
@@ -150,7 +167,11 @@ const AppContent: React.FC = () => {
               {/* Card 4: Command Center */}
               <div 
                 onClick={() => setActiveView('organizer')}
-                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-blue-500/40 hover:shadow-[0_12px_25px_rgba(30,64,175,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveView('organizer'); } }}
+                role="button"
+                tabIndex={0}
+                aria-label="Open Command Center — Live venue heatmap, operations analytics, and AI search"
+                className="glass rounded-3xl p-6 cursor-pointer border border-slate-200/80 hover:border-blue-500/40 hover:shadow-[0_12px_25px_rgba(30,64,175,0.08)] hover:-translate-y-1 transition-all group flex flex-col justify-between h-72 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform mb-5">
@@ -184,7 +205,7 @@ const AppContent: React.FC = () => {
             {activeView === 'organizer' && <OrganizerView />}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 };
