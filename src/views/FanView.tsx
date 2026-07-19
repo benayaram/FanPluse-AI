@@ -272,6 +272,7 @@ export const FanView: React.FC = () => {
                   : 'text-slate-400 hover:bg-slate-50 hover:text-slate-700'
               }`}
               title="Voice Input"
+              aria-label="Toggle voice input"
             >
               {isListening ? <MicOff size={16} /> : <Mic size={16} />}
             </button>
@@ -281,11 +282,13 @@ export const FanView: React.FC = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder={isListening ? "Listening..." : "Ask FanPulse AI stadium guide..."}
+              aria-label="Chat message input"
               className="flex-1 bg-transparent text-xs text-slate-800 focus:outline-none placeholder-slate-400 pl-1"
               disabled={isListening}
             />
             <button 
               onClick={() => handleSend()}
+              aria-label="Send message"
               className="bg-emerald-600 hover:bg-emerald-550 text-white p-2 rounded-lg transition-colors shadow-sm"
             >
               <Send size={15} />
