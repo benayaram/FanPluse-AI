@@ -14,6 +14,8 @@
  * live-data experience for the hackathon demo.
  */
 
+/* eslint-disable react/only-export-components */
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type {
   POI,

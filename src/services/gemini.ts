@@ -54,11 +54,21 @@ const isValidKey = (key: string): boolean => {
  */
 export function sanitizeInput(input: string, maxLength = 1000): string {
   if (typeof input !== 'string') return '';
-  return input
-    .replace(/<[^>]*>/g, '')       // strip HTML tags
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '') // strip control chars
-    .trim()
-    .slice(0, maxLength);
+  
+  // Strip HTML tags
+  const noHtml = input.replace(/<[^>]*>/g, '');
+  
+  // Remove control characters (0-8, 11, 12, 14-31) by filtering char codes
+  let sanitized = '';
+  for (let i = 0; i < noHtml.length; i++) {
+    const code = noHtml.charCodeAt(i);
+    const isControl = (code >= 0 && code <= 8) || code === 11 || code === 12 || (code >= 14 && code <= 31);
+    if (!isControl) {
+      sanitized += noHtml[i];
+    }
+  }
+  
+  return sanitized.trim().slice(0, maxLength);
 }
 
 /** A single message in the conversation history. */

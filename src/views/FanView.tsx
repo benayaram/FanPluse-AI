@@ -41,6 +41,7 @@ export const FanView: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const handleSendRef = useRef<(textToSend?: string) => Promise<void>>(null as any);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -64,7 +65,7 @@ export const FanView: React.FC = () => {
         const text = event.results[0][0].transcript;
         setInputValue(text);
         setIsListening(false);
-        handleSend(text);
+        handleSendRef.current(text);
       };
 
       rec.onerror = (e: Event) => {
@@ -129,6 +130,8 @@ export const FanView: React.FC = () => {
       setHighlightedPoi(foundPoi.id);
     }
   };
+
+  handleSendRef.current = handleSend;
 
   const handlePoiClickOnMap = (poi: POI) => {
     handleSend(`Tell me about ${poi.name} at ${poi.location}`);
