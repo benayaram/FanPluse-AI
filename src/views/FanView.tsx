@@ -3,7 +3,7 @@ import { useSimulation } from '../context/SimulationContext';
 import { askFanAssistant } from '../services/gemini';
 import type { ChatMessage } from '../services/gemini';
 import { StadiumMap } from '../components/StadiumMap';
-import type { POI } from '../data/mockData';
+import type { POI, TransitOption } from '../data/mockData';
 import { 
   MessageSquare, 
   Map, 
@@ -40,7 +40,7 @@ export const FanView: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -51,23 +51,23 @@ export const FanView: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Setup Web Speech API for voice support
+  // Setup Web Speech API for voice input support
   useEffect(() => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const rec = new SpeechRecognition();
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognitionAPI) {
+      const rec = new SpeechRecognitionAPI();
       rec.continuous = false;
       rec.interimResults = false;
       rec.lang = 'en-US';
 
-      rec.onresult = (event: any) => {
+      rec.onresult = (event: SpeechRecognitionEvent) => {
         const text = event.results[0][0].transcript;
         setInputValue(text);
         setIsListening(false);
         handleSend(text);
       };
 
-      rec.onerror = (e: any) => {
+      rec.onerror = (e: Event) => {
         console.error('Speech error:', e);
         setIsListening(false);
         showToast('Voice typing error. Please type manually.');
@@ -139,7 +139,7 @@ export const FanView: React.FC = () => {
     handleSend(text);
   };
 
-  const selectTransit = (opt: any) => {
+  const selectTransit = (opt: TransitOption): void => {
     if (opt.type === 'train' || opt.type === 'bus') {
       const points = opt.type === 'train' ? 50 : 30;
       addGreenScorePoints(points);
