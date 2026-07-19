@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
+/**
+ * @file App.tsx
+ * @description Root application component for the FanPulse AI platform.
+ *
+ * Renders the Portal Hub (landing page with role selection cards) and
+ * routes to persona-specific views (Fan, Volunteer, Staff, Organizer).
+ * Each view is wrapped in an ErrorBoundary for graceful error recovery.
+ */
+
+import { useState } from 'react';
 import { SimulationProvider, useSimulation } from './context/SimulationContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { FanView } from './views/FanView';
 import { OrganizerView } from './views/OrganizerView';
 import { VolunteerView } from './views/VolunteerView';
@@ -14,8 +24,12 @@ import {
   Globe
 } from 'lucide-react';
 
+/** Available view states in the application router. */
+type ActiveView = 'portal' | 'fan' | 'organizer' | 'volunteer' | 'staff';
+
+/** Main application content with portal hub and persona routing. */
 const AppContent: React.FC = () => {
-  const [activeView, setActiveView] = useState<'portal' | 'fan' | 'organizer' | 'volunteer' | 'staff'>('portal');
+  const [activeView, setActiveView] = useState<ActiveView>('portal');
   const { incidents } = useSimulation();
 
   const activeIncidentsCount = incidents.filter(inc => inc.status !== 'resolved').length;
@@ -197,12 +211,14 @@ const AppContent: React.FC = () => {
             </div>
           </div>
         ) : (
-          /* Render Active Persona View as Full-screen Website UI */
+          /* Render Active Persona View — each wrapped in ErrorBoundary for resilience */
           <div className="flex-1 flex min-h-0 overflow-y-auto bg-slate-100/50">
-            {activeView === 'fan' && <FanView />}
-            {activeView === 'volunteer' && <VolunteerView />}
-            {activeView === 'staff' && <StaffView />}
-            {activeView === 'organizer' && <OrganizerView />}
+            <ErrorBoundary>
+              {activeView === 'fan' && <FanView />}
+              {activeView === 'volunteer' && <VolunteerView />}
+              {activeView === 'staff' && <StaffView />}
+              {activeView === 'organizer' && <OrganizerView />}
+            </ErrorBoundary>
           </div>
         )}
       </main>
@@ -210,11 +226,17 @@ const AppContent: React.FC = () => {
   );
 };
 
+/**
+ * Root App component.
+ * Wraps the entire application in SimulationProvider for global state access.
+ */
 const App: React.FC = () => {
   return (
-    <SimulationProvider>
-      <AppContent />
-    </SimulationProvider>
+    <ErrorBoundary>
+      <SimulationProvider>
+        <AppContent />
+      </SimulationProvider>
+    </ErrorBoundary>
   );
 };
 

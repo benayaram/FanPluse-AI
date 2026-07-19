@@ -47,11 +47,11 @@ export const StaffView: React.FC = () => {
 
     reportIncident({
       title: result.title,
-      category: result.category as any,
-      severity: result.severity as any,
+      category: result.category,
+      severity: result.severity,
       location: 'Sector West (Gate D)',
       description: description,
-      aiSuggestedAction: result.aiSuggestedAction
+      aiSuggestedAction: result.aiSuggestedAction,
     });
 
     setDescription('');

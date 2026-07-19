@@ -1,3 +1,17 @@
+/**
+ * @file mockData.ts
+ * @description Static and initial mock data representing MetLife Stadium's
+ * operational state during a FIFA World Cup 2026 match.
+ *
+ * This data powers the live simulation in {@link SimulationContext} and provides:
+ * - Stadium zones with crowd density classifications
+ * - Points of Interest (restrooms, concessions, medical, sensory rooms, gates)
+ * - Transit options with cost, ETA, and carbon footprint data
+ * - Initial incidents for the demo scenario
+ * - Venue knowledge base for AI context grounding
+ */
+
+/** A Point of Interest within the stadium venue. */
 export interface POI {
   id: string;
   name: string;

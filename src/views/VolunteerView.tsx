@@ -309,7 +309,7 @@ export const VolunteerView: React.FC = () => {
               <div className="grid grid-cols-2 gap-2">
                 <select 
                   value={escalateCategory}
-                  onChange={(e) => setEscalateCategory(e.target.value as any)}
+                  onChange={(e) => setEscalateCategory(e.target.value as typeof escalateCategory)}
                   className="bg-white border border-slate-250 text-slate-700 text-xs rounded-lg p-2 focus:outline-none focus:border-red-500 shadow-sm"
                 >
                   <option value="facilities">Facilities</option>
